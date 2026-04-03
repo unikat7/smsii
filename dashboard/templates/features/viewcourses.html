@@ -1,0 +1,242 @@
+{% extends "dashboard/teacherbase.html" %}
+{% load static %}
+
+{% block dashboard_title %}View Courses{% endblock %}
+
+{% block sidebar_menu %}
+<ul>
+    {% if request.user.student %}
+    <li><a href="{% url 'viewcourses' %}"><i class="ri-book-open-line"></i> View Courses</a></li>
+    <li><a href="{% url 'viewteachers' %}"><i class="ri-user-3-line"></i> View Teachers</a></li>
+
+    <li><a href="#"><i class="ri-bar-chart-fill"></i> View Result</a></li>
+    <li><a href="{% url "techform" %}"><i class="ri-compass-3-line"></i> Predict Tech Career Path</a></li>
+
+    {% elif request.user.teacher %}
+    <ul>
+        <li><a href="{% url 'viewcourses' %}"><i class="ri-book-open-line"></i> View Courses</a></li>
+    
+        <li><a href="{% url 'viewstudents' %}"><i class="ri-bar-chart-fill"></i> View Students</a></li>
+        <li><a href="#"><i class="ri-compass-3-line"></i> Assign Marks</a></li>
+    </ul>
+
+    {% endif %}
+
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="course-container">
+    <div class="header-section">
+        <h2 class="page-title">Available Courses</h2>
+        <div class="search-box">
+            <i class="ri-search-line"></i>
+            <form method="post">
+                {% csrf_token %}
+            <input type="text" id="semesterSearch" name="semester" placeholder="Filter by semester">
+            </form>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="courseTable">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Course Code</th>
+                    <th>Semester</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in  page_obj %}
+                <tr>
+                    <td class="course-name">{{c.course_name}}</td>
+                    <td><span class="code-badge">{{c.course_code}}</span></td>
+                    <td class="semester-val">{{c.semester.semester}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="pagination-container">
+   <div class="pagination-info">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+</div>
+
+
+    <div class="pagination-buttons">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+        {% else %}
+            <span class="page-link disabled">Previous</span>
+        {% endif %}
+
+        <span class="page-link active">{{ page_obj.number }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next &raquo;</a>
+        {% else %}
+            <span class="page-link disabled">Next &raquo;</span>
+        {% endif %}
+    </div>
+</div>
+<style>
+    /* Scope these styles to the course-container to avoid breaking base UI */
+    .course-container {
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .page-title {
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .search-box {
+        position: relative;
+        max-width: 400px;
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 10px 10px 10px 40px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    .search-box input:focus {
+        border-color: #007bff;
+    }
+
+    .table-wrapper {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    thead {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #eee;
+    }
+
+    th {
+        padding: 15px 20px;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #666;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        color: #444;
+    }
+
+    tr:hover {
+        background-color: #fcfcfc;
+    }
+
+    .course-name {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .code-badge {
+        background: #e9ecef;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    @media (max-width: 768px) {
+        .header-section { flex-direction: column; }
+    }
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 25px;
+        padding-top: 10px;
+    }
+
+    .pagination-info {
+        font-size: 14px;
+        color: #777;
+    }
+
+    .pagination-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .page-link {
+        padding: 8px 14px;
+        text-decoration: none;
+        color: #555;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .page-link:hover:not(.disabled):not(.active) {
+        background-color: #f8f9fa;
+        border-color: #bbb;
+        color: #000;
+    }
+
+    .page-link.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+        font-weight: 600;
+    }
+
+    .page-link.disabled {
+        color: #ccc;
+        pointer-events: none;
+        background-color: #fafafa;
+    }
+
+    @media (max-width: 600px) {
+        .pagination-container {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+    }
+</style>
+
+
+{% endblock %}

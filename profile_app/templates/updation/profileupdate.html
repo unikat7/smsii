@@ -1,0 +1,49 @@
+{% extends "dashboard/studentdashboard.html" %}
+
+
+{% block content %}
+
+
+    <div class="profile-update-container" style="max-width:500px;margin:50px auto;padding:20px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;">
+    <h2 style="text-align:center;margin-bottom:20px;">Update Profile</h2>
+    
+    <form method="POST" enctype="multipart/form-data" action="{% url 'profileupdate' %}">
+        {% csrf_token %}
+        
+
+        <div class="form-group" style="margin-bottom:15px;">
+            <label for="username" style="display:block;margin-bottom:5px;font-weight:500;"> Username</label>
+            <input type="text" name="username" id="username" value="{{ request.user.username }}" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <!-- First Name -->
+        <div class="form-group" style="margin-bottom:15px;">
+            <label for="first_name" style="display:block;margin-bottom:5px;font-weight:500;">First Name</label>
+            <input type="text" name="firstname" id="first_name" value="{{ request.user.first_name }}" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+      
+        
+        <!-- Last Name -->
+        <div class="form-group" style="margin-bottom:15px;">
+            <label for="last_name" style="display:block;margin-bottom:5px;font-weight:500;">Last Name</label>
+            <input type="text" name="lastname" id="last_name" value="{{ request.user.last_name }}" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group" style="margin-bottom:15px;">
+            <label for="email" style="display:block;margin-bottom:5px;font-weight:500;">Email</label>
+            <input type="email" name="email" id="email" value="{{ request.user.email }}" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        
+        <!-- Profile Image -->
+        <div class="form-group" style="margin-bottom:15px;">
+            <label for="profile_image" style="display:block;margin-bottom:5px;font-weight:500;">Profile Image</label>
+            <input type="file" name="profileimage" id="profile_image" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        
+        <button type="submit" style="width:100%;padding:12px;background:#4f46e5;color:white;border:none;border-radius:6px;font-size:16px;font-weight:500;cursor:pointer;">
+            Update Profile
+        </button>
+    </form>
+</div>
+
+{% endblock %}

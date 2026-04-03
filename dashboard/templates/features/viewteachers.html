@@ -1,0 +1,70 @@
+{% extends "dashboard/basedashboard.html" %}
+{% load static %}
+
+{% block dashboard_title %}View Courses{% endblock %}
+
+{% block sidebar_menu %}
+<ul>
+    <li><a href="{% url 'viewcourses' %}"><i class="ri-book-open-line"></i> View Courses</a></li>
+    <li><a href="{% url 'viewteachers' %}"><i class="ri-user-3-line"></i> View Teachers</a></li>
+    <li><a href="#"><i class="ri-bar-chart-fill"></i> View Result</a></li>
+    <li><a href="{% url 'techform' %}"><i class="ri-compass-3-line"></i> Predict Tech Career Path</a></li>
+</ul>
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+.content-wrapper {
+    padding: 20px;
+}
+
+.teacher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.teacher-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.teacher-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+</style>
+{% endblock extra_css %}
+
+
+
+
+{% block content %}
+
+
+<div class="content-wrapper">
+    <h2>Teachers List</h2>
+
+    <div class="teacher-grid">
+        {% for t in teachers %}
+        <div class="teacher-card">
+            <img src="{{t.user.profile_pic.profile_image.url}}" alt="Teacher">
+            <h3>{{t.user.first_name}} {{t.user.last_name}}</h3>
+            <p>{{t.user.email}}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    
+</div>
+
+
+{% endblock %}
+

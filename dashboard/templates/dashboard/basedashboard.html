@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block dashboard_title %}Dashboard{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'css/base/base.css' %}">
+     {% block extra_css %}{% endblock %}
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    
+</head>
+
+<body>
+
+    <!-- NAVBAR (Top) -->
+    <nav class="navbar">
+        <div class="nav-left">
+            {% block dashboard_name %}Dashboard{% endblock %}
+        </div>
+        <div class="nav-right">
+            <div class="profile">
+                {% if request.user.profile_pic and request.user.profile_pic.profile_image %}
+                    <img src="{{ request.user.profile_pic.profile_image.url }}" alt="Profile">
+                {% else %}
+                    <img src="{% static 'image/defaultpp.webp' %}" alt="Profile">
+                {% endif %}
+
+                   <div class="profile-info">
+                        <p>Welcome, {{request.user.username}}</p>
+                 </div>
+
+                <div class="dropdown">
+                
+                    <a href="{% url 'profileupdate' %}">Update Profile</a>
+                    <a href="{% url 'passwordchange' %}">Change Password</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SIDEBAR + CONTENT WRAPPER -->
+    <div class="wrapper">
+
+        <!-- SIDEBAR (Below Navbar) -->
+        <aside class="sidebar">
+        
+            {% block sidebar_menu %}
+            {% endblock %}
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+</body>
+</html>

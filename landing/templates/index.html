@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP Koirala Memorial College - Student Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen w-screen font-sans">
+
+    <!-- Background Image -->
+    <div class="relative h-screen w-screen">
+        <img src="{% static "images/GP_Koirala_Memorial_College_Cover.webp" %}" 
+             alt="GP Koirala Memorial College" 
+             class="absolute inset-0 w-full h-full object-cover">
+
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-center text-center px-4">
+
+            <!-- College Name -->
+            <h1 class="text-white text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-2xl">
+                GP Koirala Memorial College
+            </h1>
+            <p class="text-gray-100 text-lg md:text-2xl mb-8 drop-shadow-lg">
+                Student Management System
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col md:flex-row gap-6">
+                <a href="{% url 'signin' %}" 
+                   class="px-10 py-4 bg-gradient-to-r from-green-400 to-green-600 
+                          hover:from-green-500 hover:to-green-700 text-white rounded-full 
+                          text-lg font-bold shadow-xl transform hover:scale-105 transition duration-300">
+                    SMS Login
+                </a>
+             
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

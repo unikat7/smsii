@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/registration/registration.css' %}">
+</head>
+<body>
+
+<div class="card choice-container">
+    <h2>Select Registration Type</h2>
+
+    <a href="{% url 'sregister' %}">
+        <button class="choice-btn">Register as Student</button>
+    </a>
+
+    <a href="{% url 'tregister' %}">
+        <button class="choice-btn">Register as Teacher</button>
+    </a>
+</div>
+
+</body>
+</html>

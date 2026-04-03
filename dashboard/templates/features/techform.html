@@ -1,0 +1,194 @@
+{% extends "dashboard/studentbase.html" %}
+
+{% block content %}
+<style>
+  /* Container */
+  .container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  /* Card styling */
+  .card {
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.15);
+    padding: 40px 30px;
+  }
+
+  /* Headings */
+  h3 {
+    color: #0d6efd;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 30px;
+  }
+
+  /* Labels */
+  .form-label {
+    font-weight: 500;
+    color: #333333;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  /* Radio button spacing */
+  .form-check {
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+
+  .form-check-label {
+    font-weight: 400;
+    color: #555555;
+    font-size: 15px;
+  }
+
+  .form-check-input {
+    margin-right: 5px;
+  }
+
+  /* Select box */
+  .form-select {
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  /* Submit button */
+  .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0b5ed7;
+  }
+
+  /* Alert message */
+  .alert-success {
+    background-color: #d1e7ff;
+    color: #0d6efd;
+    border: 1px solid #0d6efd;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 20px;
+  }
+
+  /* Increase spacing between form groups */
+  .mb-3, .mb-4 {
+    margin-bottom: 25px !important;
+  }
+</style>
+
+<div class="container">
+  <div class="row justify-content-center">
+
+    <div class="col-md-8 col-lg-6">
+
+      <form class="card shadow" method="post">
+        {% csrf_token %}
+
+        <h3 class="text-center">Student Tech Preference</h3>
+
+        <!-- Design or Logic -->
+        <div class="mb-3">
+          <label class="form-label">Do you prefer Design or Logic?</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="prefer_design_or_logic" value="Design" required>
+            <label class="form-check-label">Design</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="prefer_design_or_logic" value="Logic">
+            <label class="form-check-label">Logic</label>
+          </div>
+        </div>
+
+        <!-- Like Coding -->
+        <div class="mb-3">
+          <label class="form-label">Do you like coding?</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="like_coding" value="Yes" required>
+            <label class="form-check-label">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="like_coding" value="No">
+            <label class="form-check-label">No</label>
+          </div>
+        </div>
+
+        <!-- Enjoy Math -->
+        <div class="mb-3">
+          <label class="form-label">Do you enjoy math?</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="enjoy_math" value="Yes" required>
+            <label class="form-check-label">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="enjoy_math" value="No">
+            <label class="form-check-label">No</label>
+          </div>
+        </div>
+
+        <!-- Like Puzzles -->
+        <div class="mb-3">
+          <label class="form-label">Do you like solving puzzles?</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="like_puzzles" value="Yes" required>
+            <label class="form-check-label">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="like_puzzles" value="No">
+            <label class="form-check-label">No</label>
+          </div>
+        </div>
+
+        <!-- Apps or Websites -->
+        <div class="mb-4">
+          <label class="form-label">Do you like building Apps or Websites?</label>
+          <select name="build_apps_or_websites" class="form-select" required>
+            <option value="" disabled selected>Select one</option>
+            <option value="Apps">Apps</option>
+            <option value="Websites">Websites</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Submit
+        </button>
+
+        {% if prediction %}
+        <div class="alert alert-success text-center">
+          <strong>Your career is:</strong> {{ prediction }}
+        </div>
+
+        <script>
+          // Hide the alert after 3 seconds
+          setTimeout(function() {
+            const alertBox = document.querySelector('.alert-success');
+            if (alertBox) {
+              alertBox.style.transition = 'opacity 1s'; // smooth fade
+              alertBox.style.opacity = '0';
+              setTimeout(() => alertBox.style.display = 'none', 1000); // remove from layout
+            }
+          }, 3000); // 3000ms = 3 seconds
+        </script>
+      {% endif %}
+
+
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

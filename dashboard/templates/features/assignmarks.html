@@ -1,0 +1,181 @@
+{% extends "dashboard/teacherbase.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .marks-container {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .marks-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .course-select {
+        margin-bottom: 25px;
+    }
+
+    select {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    table th {
+        background: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #ddd;
+    }
+
+    table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    table tr:hover {
+        background: #fafafa;
+    }
+
+    input[type="number"] {
+        width: 100px;
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .submit-btn {
+        margin-top: 20px;
+        background: #4f46e5;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background: #4338ca;
+    }
+
+    .status-assigned {
+        color: green;
+        font-size: 13px;
+    }
+
+    .status-pending {
+        color: #999;
+        font-size: 13px;
+    }
+
+    /* Message styling */
+    .alert {
+        display:inline-block;
+        padding:10px 20px;
+        background:#4CAF50;
+        color:white;
+        border-radius:6px;
+        font-weight:500;
+        margin-bottom:15px;
+    }
+</style>
+
+<div class="marks-container">
+
+    <h2>Assign Marks</h2>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div id="message-container" style="text-align:center;">
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Select Course -->
+    <form method="get" class="course-select">
+        <label>Select Course:</label>
+        <select name="course" onchange="this.form.submit()">
+            <option value="">-- Select Course --</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}"
+                    {% if selected_course and course.id == selected_course.id %}selected{% endif %}>
+                    {{ course.course_name }} (Sem {{ course.semester.semester }})
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <!-- Students + Marks -->
+    {% if students %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="course" value="{{ selected_course.id }}">
+
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Marks</th>
+            </tr>
+
+            {% for student in students %}
+            <tr>
+                <td>
+                    {{ student.firstname }} {{ student.lastname }} <br>
+                    {% if student.course_marks %}
+                        <span class="status-assigned">✔ Marks assigned</span>
+                    {% else %}
+                        <span class="status-pending">Not assigned</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <input type="hidden" name="student_id" value="{{ student.id }}">
+
+                    <input type="number"
+                           name="marks"
+                           min="0"
+                           max="60"
+                           value="{% if student.course_marks %}{{ student.course_marks.0.marks }}{% endif %}"
+                           required>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <button type="submit" class="submit-btn">Save Marks</button>
+    </form>
+    {% endif %}
+
+</div>
+
+
+<script>
+    setTimeout(function() {
+        const msg = document.getElementById('message-container');
+        if(msg){
+            msg.style.display = 'none';
+        }
+    }, 3000);
+</script>
+
+{% endblock content %}

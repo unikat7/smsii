@@ -1,0 +1,89 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body & background */
+body {
+   
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card container */
+.card {
+    width: 90%;
+    max-width: 400px;
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.5s ease;
+}
+
+/* Animation */
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Form heading */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333333;
+    font-weight: 600;
+}
+
+/* Inputs and select */
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #6e8efb;
+    outline: none;
+    box-shadow: 0 0 5px rgba(110, 142, 251, 0.5);
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: #6e8efb;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #5a7bf0;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card {
+        padding: 25px 15px;
+    }
+
+    input, select, .btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+}

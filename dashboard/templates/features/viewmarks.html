@@ -1,0 +1,236 @@
+{% extends "dashboard/studentbase.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .marks-container {
+        max-width: 700px;
+        margin: 30px auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f9fafb;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .marks-container h2 {
+        text-align: center;
+        color: #1f2937;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .student-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .student-info p {
+        margin: 0;
+        color: #374151;
+        font-weight: 500;
+    }
+
+    .message-box {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .alert {
+        display: inline-block;
+        padding: 12px 25px;
+        background: #3b82f6;
+        color:white;
+        border-radius: 8px;
+        font-weight: 500;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .summary {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .summary-box {
+        background: #fff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        text-align: center;
+        flex: 1 1 100px;
+    }
+
+    .summary-box h4 {
+        margin: 0;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .summary-box p {
+        margin: 5px 0 0;
+        font-weight: 700;
+        font-size: 18px;
+        color: #1f2937;
+    }
+
+    .progress-bar-container {
+        background: #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        height: 20px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #10b981, #34d399);
+        width: 0%;
+        text-align: center;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        transition: width 0.5s ease;
+    }
+
+    .course-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .course-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-radius: 12px;
+        transition: transform 0.2s;
+        font-weight: 500;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .course-item.assigned {
+        background: #ecfdf5;
+        border-left: 6px solid #16a34a;
+    }
+
+    .course-item.pending {
+        background: #fff7ed;
+        border-left: 6px solid #f59e0b;
+    }
+
+    .course-item:hover {
+        transform: translateY(-3px);
+    }
+
+    .course-name {
+        font-size: 16px;
+        color: #374151;
+    }
+
+    .marks {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .mark-assigned {
+        color: #16a34a;
+    }
+
+    .mark-pending {
+        color: #f59e0b;
+    }
+
+    @media (max-width: 500px) {
+        .course-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .marks {
+            margin-top: 8px;
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="marks-container">
+
+    <h2>My Results</h2>
+
+    <!-- Student Information -->
+    <div class="student-info">
+        <p><strong>Name:</strong> {{ student.firstname }} {{ student.lastname }}</p>
+        <p><strong>Username:</strong> {{ student.username }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Semester:</strong> {{ student.semester.semester }}</p>
+     
+    </div>
+
+    <!-- Single informational message -->
+    {% if messages %}
+    <div class="message-box" id="message-container">
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Summary Info -->
+    <div class="summary">
+        <div class="summary-box">
+            <h4>Total Subjects</h4>
+            <p>{{ total_courses }}</p>
+        </div>
+        <div class="summary-box">
+            <h4>Completed</h4>
+            <p>{{ completed_courses }}</p>
+        </div>
+        <div class="summary-box">
+            <h4>Pending</h4>
+            <p>{{ pending_courses }}</p>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+ 
+
+    <!-- Vertical list for courses -->
+    <div class="course-list">
+        {% for item in course_marks_list %}
+        <div class="course-item {% if item.assigned %}assigned{% else %}pending{% endif %}">
+            <div class="course-name">{{ item.course_name }}</div>
+            <div class="marks">
+                {% if item.assigned %}
+                    <span class="mark-assigned">{{ item.marks }}</span>
+                {% else %}
+                    <span class="mark-pending">Pending</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- Auto-hide messages -->
+<script>
+    setTimeout(function() {
+        const msg = document.getElementById('message-container');
+        if(msg){
+            msg.style.display = 'none';
+        }
+    }, 4000);
+</script>
+
+{% endblock content %}

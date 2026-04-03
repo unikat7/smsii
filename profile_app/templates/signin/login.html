@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System | Login</title>
+    <link rel="stylesheet" href="{% static 'css/signin/login.css' %}">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-box">
+
+            <!-- School Logo -->
+            <div class="logo">
+                <img src="{% static 'images/gplogo.png' %}" alt="School Logo">
+            </div>
+
+            <!-- School Name -->
+            <div class="school-name">
+                GP Koirala Memorial College
+            </div>
+
+            <h2>Login</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username"
+                           placeholder="Enter your username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password"
+                           placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn">Login</button>
+
+            </form>
+
+            <p class="signup-link">
+                Don't have an account?
+                <a href="{% url 'choice' %}">Register</a>
+            </p>
+
+        </div>
+    </div>
+
+</body>
+</html>

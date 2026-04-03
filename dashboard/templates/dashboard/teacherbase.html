@@ -1,0 +1,15 @@
+{% extends "dashboard/basedashboard.html" %}
+
+
+  
+  
+{% block sidebar_menu %}
+
+  <ul>
+    <li><a href="{% url 'viewcourses' %}"><i class="ri-book-open-line"></i> View Courses</a></li>
+ 
+    <li><a href="{% url 'viewstudents' %}"><i class="ri-bar-chart-fill"></i> View Students</a></li>
+    <li><a href="{% url 'assignmarks' %}"><i class="ri-compass-3-line"></i> Assign Marks</a></li>
+</ul>
+
+{% endblock %}
