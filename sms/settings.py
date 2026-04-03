@@ -82,8 +82,8 @@ DATABASES = {
         'NAME':config('NAME'),
         'USER':config('USER'),
         'PASSWORD':config('PASSWORD'),
-        'HOST':'localhost',
-        'PORT':'3306',
+        'HOST':'interchange.proxy.rlwy.net',
+        'PORT':'45771',
 
     }
 }
