@@ -83,8 +83,8 @@ DATABASES = {
         'NAME':config('NAME'),
         'USER':config('USER'),
         'PASSWORD':config('PASSWORD'),
-        'HOST':'interchange.proxy.rlwy.net',
-        'PORT':'45771',
+        'HOST':'mysql.railway.internal',
+        'PORT':'3306',
 
     }
 }
